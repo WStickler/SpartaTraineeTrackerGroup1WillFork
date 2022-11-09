@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TraineeTrackerApp.Controllers;
-using TraineeTrackerApp.Models;
+using TraineeTrackerApp.Models.ViewModels;
 using TraineeTrackerApp.Services;
 
 namespace TrackerTests

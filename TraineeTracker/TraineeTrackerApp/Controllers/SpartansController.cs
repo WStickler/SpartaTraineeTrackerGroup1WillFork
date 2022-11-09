@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TraineeTrackerApp.Data;
 using TraineeTrackerApp.Models;
+using TraineeTrackerApp.Models.ViewModels;
 using TraineeTrackerApp.Services;
 using TraineeTrackerApp.Utilities;
 
@@ -29,25 +30,33 @@ public class SpartansController : Controller
     {
         var currentUser = await _userManager.GetUserAsync(HttpContext.User);
         var spartans = await _traineeService.GetSpartansAsync();
-        return View(spartans);
+        List<SpartanViewModel> spartanViewModels = new List<SpartanViewModel>();
+
+        foreach(var s in spartans)
+        {
+            var spartanViewModel = Utils.SpartanToViewModel(s, _userManager);
+            spartanViewModels.Add(spartanViewModel);
+        }
+
+        return View(spartanViewModels);
     }
 
     // GET: Spartans/Details/{id}
-    [Authorize(Roles = "Trainer, Admin")]
-    public async Task<IActionResult> Details(string? id)
-    {
-        if (id == null || _traineeService.GetSpartansAsync().Result == new List<Spartan>())
-        {
-            return NotFound();
-        }
-        var spartan = await _traineeService.GetSpartanByIdAsync(id);
-        if (spartan == null)
-        {
-            return NotFound();
-        }
-
-        return View(spartan);
-    }
+    //[Authorize(Roles = "Trainer, Admin")]
+    //public async Task<IActionResult> Details(string? id)
+    //{
+    //    if (id == null || _traineeService.GetSpartansAsync().Result == new List<Spartan>())
+    //    {
+    //        return NotFound();
+    //    }
+    //    var spartan = await _traineeService.GetSpartanByIdAsync(id);
+    //    if (spartan == null)
+    //    {
+    //        return NotFound();
+    //    }
+    //    var spartanViewModel = Utils.SpartanToViewModel(spartan, _userManager);
+    //    return View(spartanViewModel);
+    //}
 
 
     [Authorize(Roles = "Admin")]
@@ -68,7 +77,6 @@ public class SpartansController : Controller
         return View(spartan);
     }
 
-    // POST: Delete/Trainees/{id}
     [Authorize(Roles = "Admin")]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
@@ -106,8 +114,8 @@ public class SpartansController : Controller
         {
             return NotFound();
         }
-
-        return View(spartan);
+        var spartanViewModel = Utils.SpartanToViewModel(spartan, _userManager);
+        return View(spartanViewModel);
     }
 
     [HttpPost]

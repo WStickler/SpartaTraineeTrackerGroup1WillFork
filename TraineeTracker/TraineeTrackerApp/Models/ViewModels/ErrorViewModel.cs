@@ -1,4 +1,4 @@
-namespace TraineeTrackerApp.Models;
+namespace TraineeTrackerApp.Models.ViewModels;
 
 public class ErrorViewModel
 {

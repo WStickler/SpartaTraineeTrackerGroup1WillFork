@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TraineeTrackerApp.Models;
+using TraineeTrackerApp.Models.ViewModels;
 using TraineeTrackerApp.Services;
 
 namespace TraineeTrackerApp.Controllers;

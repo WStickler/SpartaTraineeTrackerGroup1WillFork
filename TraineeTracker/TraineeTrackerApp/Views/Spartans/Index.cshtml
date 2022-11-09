@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TraineeTrackerApp.Models.Spartan>
+﻿@model IEnumerable<TraineeTrackerApp.Models.ViewModels.SpartanViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,6 +18,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.StartDate)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -33,6 +36,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
                     </td>
                     <td class="text-end">
                         <div>

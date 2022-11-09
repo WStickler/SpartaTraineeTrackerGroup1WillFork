@@ -1,4 +1,4 @@
-﻿@model TraineeTrackerApp.Models.Spartan
+﻿@model TraineeTrackerApp.Models.ViewModels.SpartanViewModel
 
 @{
     ViewData["Title"] = "Edit Role";
@@ -7,6 +7,7 @@
 <h1>Edit Role</h1>
 
 <h4>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+<h5>Current role: @Html.DisplayFor(model => model.Role)</h5>
 <hr />
 <div class="row">
     <div class="col-md-8">
