@@ -30,8 +30,6 @@ namespace TraineeTrackerApp.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            //var applicationDbContext = _service.Weeks.Include(w => w.Spartan);
-            //return View(await applicationDbContext.ToListAsync());
             var weeks = await _service.GetWeeksAsync();
             var filteredWeeks = weeks.Where(w => w.SpartanId == currentUser.Id)
                 .OrderBy(w => w.WeekStart.Date).ToList();
@@ -45,10 +43,6 @@ namespace TraineeTrackerApp.Controllers
             {
                 return NotFound();
             }
-
-            //var week = await _service.Weeks
-            //    .Include(w => w.Spartan)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
             var week = await _service.GetWeekByIdAsync(id);
             if (week == null)
             {
@@ -69,7 +63,6 @@ namespace TraineeTrackerApp.Controllers
         [Authorize(Roles = "Trainee")]
         public IActionResult Create()
         {
-            //ViewData["SpartanId"] = new SelectList(_service.GetSpartansAsync().Result, "Id", "Id");
             return View();
         }
 
@@ -86,21 +79,11 @@ namespace TraineeTrackerApp.Controllers
             week.SpartanId = currentUser.Id;
             week.Spartan = currentUser;
 
-            //var newWeek = new Week
-            //{
-            //    Start = week.Start,
-            //    Stop = week.Stop,
-            //    Continue = week.Continue,
-            //    Spartan = currentUser
-            //};
-
             if (week.SpartanId != null)
             {
                 await _service.AddWeek(week);
                 return RedirectToAction(nameof(Index));
             }
-
-            //ViewData["SpartanId"] = new SelectList(_service.GetSpartansAsync().Result, "Id", "Id", week.SpartanId);
             return View(week);
         }
 
@@ -124,8 +107,6 @@ namespace TraineeTrackerApp.Controllers
             {
                 return Unauthorized();
             }
-
-            //ViewData["SpartanId"] = new SelectList(_service.GetSpartansAsync().Result, "Id", "Id", week.SpartanId);
             return View(week);
         }
 
@@ -168,9 +149,6 @@ namespace TraineeTrackerApp.Controllers
                 }
             }
             return RedirectToAction(nameof(Details), new {id = week.Id});
-
-            //ViewData["SpartanId"] = new SelectList(_service.GetSpartansAsync().Result, "Id", "Id", week.SpartanId);
-            //return View(week);
         }
 
         // GET: Weeks/Delete/5
