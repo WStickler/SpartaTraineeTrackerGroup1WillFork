@@ -1,4 +1,7 @@
-# Sparta Global - Trainee Tracker Group 1
+# Sparta Global - Trainee Tracker Group 1 - Will's Fork
+
+## About this fork:
+This fork is to allow me to improve upon the original project in my own space. This will be for practice and if needed, for demonstration purposes.
 
 ## Group Members
 Adam Reed  
