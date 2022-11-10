@@ -56,8 +56,8 @@ namespace TraineeTrackerApp.Controllers
             {
                 return NotFound();
             }
-
-            return View(spartan);
+            var traineeViewModel = Utils.TraineeToViewModel(spartan, _userManager);
+            return View(traineeViewModel);
         }
 
         // GET: Trainees/{TraineeId}/Weeks
