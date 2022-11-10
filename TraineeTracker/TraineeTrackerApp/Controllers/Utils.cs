@@ -17,7 +17,17 @@ namespace TraineeTrackerApp.Controllers
                 Weeks = spartan.Weeks,
                 Role = userManager.GetRolesAsync(spartan).Result[0]
             };
-
+        public static TraineeViewModel TraineeToViewModel(Spartan spartan, UserManager<Spartan> userManager) =>
+            new TraineeViewModel
+            {
+                Id = spartan.Id,
+                FirstName = spartan.FirstName,
+                LastName = spartan.LastName,
+                StartDate = spartan.StartDate,
+                Weeks = spartan.Weeks,
+                Email = spartan.Email,
+                PhoneNumber = spartan.PhoneNumber
+            };
 
     }
 }

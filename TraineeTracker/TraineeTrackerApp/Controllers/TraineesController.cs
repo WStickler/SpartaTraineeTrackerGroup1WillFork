@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TraineeTrackerApp.Data;
 using TraineeTrackerApp.Models;
+using TraineeTrackerApp.Models.ViewModels;
 using TraineeTrackerApp.Services;
 
 namespace TraineeTrackerApp.Controllers
@@ -32,24 +33,14 @@ namespace TraineeTrackerApp.Controllers
         [Authorize(Roles = "Trainee, Trainer, Admin")]
         public async Task<IActionResult> Index()
         {
-            var spartans = await _traineeService.GetSpartansAsync();
-            var spartansNotTrainee = new List<Spartan>();
-            foreach(var s in spartans)
+            var traineeSpartans = await _userManager.GetUsersInRoleAsync("Trainee");
+            List<TraineeViewModel> traineeViewModels = new List<TraineeViewModel>();
+            foreach (var s in traineeSpartans)
             {
-                var currentRole = await _userManager.GetRolesAsync(s);
-                if (currentRole[0] != "Trainee")
-                {
-                    spartansNotTrainee.Add(s);
-                }
+                var traineeViewModel = Utils.TraineeToViewModel(s, _userManager);
+                traineeViewModels.Add(traineeViewModel);
             }
-            foreach (var s in spartansNotTrainee)
-            {
-                if (spartans.Contains(s))
-                {
-                    spartans.Remove(s);
-                }
-            }
-            return View(spartans);
+            return View(traineeViewModels);
         }
 
         // GET: Trainees/Details/{id}
