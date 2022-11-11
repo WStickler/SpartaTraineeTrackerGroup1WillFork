@@ -87,8 +87,11 @@ public class SpartansController : Controller
             return Problem("Entity set 'ApplicationDbContext.Spartans' is empty.");
         }
 
-
         var spartan = await _traineeService.GetSpartanByIdAsync(id);
+        if (spartan == null)
+        {
+            return NotFound();
+        }
         var currentUser = await _userManager.GetUserAsync(HttpContext.User);
         if (spartan.Id == currentUser.Id)
         {

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TraineeTrackerApp.Data;
 using TraineeTrackerApp.Models;
+using TraineeTrackerApp.Models.ViewModels;
 using TraineeTrackerApp.Services;
 
 namespace TraineeTrackerApp.Controllers
@@ -31,9 +32,15 @@ namespace TraineeTrackerApp.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var weeks = await _service.GetWeeksAsync();
-            var filteredWeeks = weeks.Where(w => w.SpartanId == currentUser.Id)
+            var weekViewModels = new List<WeekViewModel>();
+            foreach (var week in weeks)
+            {
+                var weekViewModel = Utils.WeekToViewModel(week);
+                weekViewModels.Add(weekViewModel);
+            }
+            var filteredWeekViewModels = weekViewModels.Where(w => w.SpartanId == currentUser.Id)
                 .OrderBy(w => w.WeekStart.Date).ToList();
-            return View(filteredWeeks);
+            return View(filteredWeekViewModels);
         }
 
         // GET: Weeks/Details/5
@@ -44,19 +51,14 @@ namespace TraineeTrackerApp.Controllers
                 return NotFound();
             }
             var week = await _service.GetWeekByIdAsync(id);
-            if (week == null)
-            {
-                return NotFound();
-            }
-
+            if (week == null) return NotFound();
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-
             if (week.SpartanId != currentUser.Id)
             {
                 return Unauthorized();
             }
-
-            return View(week);
+            var weekViewModel = Utils.WeekToViewModel(week);
+            return View(weekViewModel);
         }
 
         // GET: Weeks/Create
@@ -84,7 +86,8 @@ namespace TraineeTrackerApp.Controllers
                 await _service.AddWeek(week);
                 return RedirectToAction(nameof(Index));
             }
-            return View(week);
+            var weekViewModel = Utils.WeekToViewModel(week);
+            return View(weekViewModel);
         }
 
         // GET: Weeks/Edit/5
@@ -107,7 +110,8 @@ namespace TraineeTrackerApp.Controllers
             {
                 return Unauthorized();
             }
-            return View(week);
+            var weekViewModel = Utils.WeekToViewModel(week);
+            return View(weekViewModel);
         }
 
         // POST: Weeks/Edit/5
@@ -125,6 +129,7 @@ namespace TraineeTrackerApp.Controllers
             try
             {
                 var weekToUpdate = _service.GetWeekByIdAsync(id).Result;
+                if (weekToUpdate == null) return NotFound();
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 if (weekToUpdate.SpartanId != currentUser.Id) return Unauthorized();;
                 weekToUpdate.WeekStart = week.WeekStart;
@@ -180,6 +185,10 @@ namespace TraineeTrackerApp.Controllers
 
             
             var week = await _service.GetWeekByIdAsync(id);
+            if (week == null)
+            {
+                return NotFound();
+            }
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             if (week.SpartanId != currentUser.Id)
             {

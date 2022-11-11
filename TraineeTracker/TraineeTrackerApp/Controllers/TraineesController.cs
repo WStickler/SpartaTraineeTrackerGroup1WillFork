@@ -64,7 +64,13 @@ namespace TraineeTrackerApp.Controllers
         public async Task<IActionResult> Tracker(string? id)
         {
             var weeks = await _traineeService.GetWeeksBySpartanIdAsync(id);
-            return View(weeks);
+            var weekViewModels = new List<WeekViewModel>();
+            foreach (var week in weeks)
+            {
+                var weekViewModel = Utils.WeekToViewModel(week);
+                weekViewModels.Add(weekViewModel);
+            }
+            return View(weekViewModels);
         }
 
         // GET: Trainees/{TraineeId}/Weeks/{weekId}
@@ -80,8 +86,8 @@ namespace TraineeTrackerApp.Controllers
             {
                 return NotFound();
             }
-
-            return View(week);
+            var weekViewModel = Utils.WeekToViewModel(week);
+            return View(weekViewModel);
         }
 
 
