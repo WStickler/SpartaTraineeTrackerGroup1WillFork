@@ -3,6 +3,8 @@
 ## About this fork:
 This fork is to allow me to improve upon the original project in my own space. This will be for practice and if needed, for demonstration purposes.
 
+[This forks project board.](https://trello.com/b/mATiuVwc/trainee-tracker-fork-project)
+
 ## Group Members
 Adam Reed  
 Jai Bharat Kothari  
