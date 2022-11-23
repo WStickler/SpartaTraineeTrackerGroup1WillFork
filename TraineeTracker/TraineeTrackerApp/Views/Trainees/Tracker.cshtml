@@ -3,10 +3,16 @@
 @{
     ViewData["Title"] = "Tracker";
 }
+<script src="~/js/filters.js" defer></script>
 <div class="mt-auto mb-auto">
-    <h1>Tracker</h1>
-
-    <table class="table">
+    <div class="d-flex justify-content-between">
+        <h1>Tracker</h1>
+        <p>
+            <button onclick="OrderByDateAscending()">Date Ascending</button>
+            <button onclick="OrderByDateDescending()">Date Descending</button>
+        </p>
+    </div>
+    <table class="table" id="table">
         <thead>
             <tr>
                 <th>

@@ -5,7 +5,7 @@
     while (switching) {
         switching = false
         rows = table.rows
-        for (i = 0; i < (rows.length -1); i++) {
+        for (i = 1; i < (rows.length -1); i++) {
             shouldSwitch = false
             x = rows[i].getElementsByTagName("td")[0]
             y = rows[i + 1].getElementsByTagName("td")[0]
@@ -28,11 +28,11 @@ function OrderByDateDescending() {
     while (switching) {
         switching = false
         rows = table.rows
-        for (i = 0; i < (rows.length - 1); i++) {
+        for (i = 1; i < (rows.length - 1); i++) {
             shouldSwitch = false
             x = rows[i].getElementsByTagName("TD")[0];
             y = rows[i + 1].getElementsByTagName("TD")[0];
-            if (x.innerHTML > y.innerHTML) {
+            if (x.innerHTML < y.innerHTML) {
                 shouldSwitch = true;
                 break;
             }
